@@ -1,0 +1,17 @@
+# 游戏配置参数
+WIDTH, HEIGHT = 600, 400
+GRID_SIZE = 20
+GRID_WIDTH = WIDTH // GRID_SIZE
+GRID_HEIGHT = HEIGHT // GRID_SIZE
+
+# 颜色定义
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+GREEN = (0, 255, 0)
+RED = (255, 0, 0)
+YELLOW = (255, 255, 0)  # 蛇头
+BG_COLOR = (40, 40, 40) # 背景色
+GRID_COLOR = (60, 60, 60) # 网格线
+
+# 默认胜利分数
+DEFAULT_WIN_SCORE = 10 
