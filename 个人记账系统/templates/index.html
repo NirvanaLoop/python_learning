@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人记账系统</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>个人记账系统</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div class="messages">
+              {% for category, message in messages %}
+                <div class="msg {{ category }}">{{ message }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        <section class="stats">
+            <div class="card">
+                <div class="label">总收入</div>
+                <div class="value income">¥{{ '%.2f'|format(income_total) }}</div>
+            </div>
+            <div class="card">
+                <div class="label">总支出</div>
+                <div class="value expense">¥{{ '%.2f'|format(expense_total) }}</div>
+            </div>
+            <div class="card">
+                <div class="label">账户余额</div>
+                <div class="value balance">¥{{ '%.2f'|format(balance) }}</div>
+            </div>
+        </section>
+
+        <section class="form-section">
+            <h2>添加记录</h2>
+            <form action="{{ url_for('add') }}" method="post" class="form">
+                <div class="row">
+                    <label>金额</label>
+                    <input type="number" name="amount" step="0.01" min="0" required>
+                </div>
+                <div class="row">
+                    <label>类别</label>
+                    <input type="text" name="category" placeholder="餐饮、交通、工资..." required>
+                </div>
+                <div class="row">
+                    <label>类型</label>
+                    <select name="transaction_type">
+                        <option value="支出">支出</option>
+                        <option value="收入">收入</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <label>描述</label>
+                    <input type="text" name="description" placeholder="可选">
+                </div>
+                <div class="actions">
+                    <button type="submit">添加</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="list-section">
+            <h2>交易记录</h2>
+            {% if transactions %}
+            <table class="records">
+                <thead>
+                    <tr>
+                        <th>时间</th>
+                        <th>类型</th>
+                        <th>金额</th>
+                        <th>类别</th>
+                        <th>描述</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in transactions|reverse %}
+                    <tr>
+                        <td>{{ t.date }}</td>
+                        <td>{{ t.transaction_type }}</td>
+                        <td class="{{ 'income' if t.transaction_type == '收入' else 'expense' }}">{{ '+' if t.transaction_type=='收入' else '-' }}¥{{ '%.2f'|format(t.amount) }}</td>
+                        <td>{{ t.category }}</td>
+                        <td>{{ t.description }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+                <p>暂无记录，先添加一条吧～</p>
+            {% endif %}
+        </section>
+
+        <section class="category-section">
+            <h2>支出分类统计</h2>
+            {% if category_summary %}
+            <ul class="cats">
+                {% for k, v in category_summary.items() %}
+                    <li><span class="k">{{ k }}</span><span class="v">¥{{ '%.2f'|format(v) }}</span></li>
+                {% endfor %}
+            </ul>
+            {% else %}
+                <p>暂无支出统计</p>
+            {% endif %}
+        </section>
+    </div>
+</body>
+</html>
