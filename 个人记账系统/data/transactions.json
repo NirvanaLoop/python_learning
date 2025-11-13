@@ -5,5 +5,26 @@
     "description": "",
     "transaction_type": "收入",
     "date": "2025-11-10 15:45:35"
+  },
+  {
+    "amount": 50.0,
+    "category": "test",
+    "description": "",
+    "transaction_type": "支出",
+    "date": "2025-11-11 20:16:07"
+  },
+  {
+    "amount": 5999.0,
+    "category": "123",
+    "description": "",
+    "transaction_type": "收入",
+    "date": "2025-11-11 20:16:27"
+  },
+  {
+    "amount": 30.0,
+    "category": "123",
+    "description": "",
+    "transaction_type": "支出",
+    "date": "2025-11-11 20:17:55"
   }
 ]
